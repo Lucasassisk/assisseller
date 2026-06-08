@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path . -Force)",
+      "Bash(Select-Object -Property Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"app/Http\" -Force -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object -ExpandProperty Name | Sort-Object)",
+      "Bash(Get-ChildItem -Path \"d:\\\\DOWNLOAD\\\\_assisseller.com\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(php --version)"
+    ]
+  }
+}

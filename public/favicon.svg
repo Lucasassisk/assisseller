@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- fundo escuro com cantos arredondados -->
+  <rect width="32" height="32" rx="6" fill="#0a0a0a"/>
+  <!-- letra A em branco -->
+  <text x="4" y="25"
+        font-family="Georgia,'Cormorant Garamond',serif"
+        font-size="24"
+        font-weight="700"
+        fill="#ffffff">A</text>
+  <!-- ponto dourado -->
+  <circle cx="25.5" cy="24" r="2.8" fill="#c8a96e"/>
+</svg>
