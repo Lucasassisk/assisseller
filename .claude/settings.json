@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\\\Program Files\\\\MySQL\\\\MySQL Workbench 8.0 CE\\\\mysql.exe\" -u root -e \"SELECT VERSION\\(\\); SHOW DATABASES;\")",
+      "Bash(\"C:\\\\Program Files\\\\MySQL\\\\MySQL Workbench 8.0 CE\\\\mysql.exe\" -u root -e \"CREATE DATABASE IF NOT EXISTS assisseller_local CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; SHOW DATABASES LIKE 'assisseller_local';\")",
+      "Bash(npm run *)",
+      "Bash(Start-Process php *)",
+      "Bash(Start-Sleep 3)",
+      "Bash(Invoke-WebRequest -Uri \"http://127.0.0.1:8000\" -UseBasicParsing -TimeoutSec 5)",
+      "Bash(Select-Object StatusCode, StatusDescription)",
+      "PowerShell($proc = Start-Process php -ArgumentList \"-S\", \"127.0.0.1:8000\", \"-t\", \"D:\\\\DOWNLOAD\\\\_assisseller.com\\\\public\" -WorkingDirectory \"D:\\\\DOWNLOAD\\\\_assisseller.com\" -NoNewWindow -PassThru; Start-Sleep 2; $proc.Id)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000\" -UseBasicParsing -TimeoutSec 5; \"Status: $\\($r.StatusCode\\)\" } catch { \"Error: $_\" })",
+      "PowerShell(Stop-Process -Id 11380 -Force -ErrorAction SilentlyContinue)"
+    ]
+  }
+}

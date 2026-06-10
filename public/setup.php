@@ -4,10 +4,16 @@ if (!isset($_GET['key']) || $_GET['key'] !== 'assisseller2026') {
     die('Acesso negado.');
 }
 
-$root = dirname(__DIR__);
-echo "<pre style='font-family:monospace;font-size:13px;padding:20px'>";
+// Em produção (Hostinger): raiz do Laravel é ../assisseller/
+// Em desenvolvimento local: raiz do Laravel é ../
+$root = is_dir(dirname(__DIR__) . '/assisseller')
+    ? dirname(__DIR__) . '/assisseller'
+    : dirname(__DIR__);
 
-// === MIGRATE via Laravel bootstrap ===
+echo "<pre style='font-family:monospace;font-size:13px;padding:20px'>";
+echo "Raiz detectada: $root\n\n";
+
+// === MIGRATE ===
 echo "=== MIGRATE ===\n";
 try {
     define('LARAVEL_START', microtime(true));
@@ -20,6 +26,15 @@ try {
     echo "ERRO migrate: " . $e->getMessage() . "\n";
 }
 
+// === SEED (usuário admin) ===
+echo "\n=== SEED (usuário admin) ===\n";
+try {
+    $status = $kernel->call('db:seed', ['--force' => true]);
+    echo "Seed concluído. Status: $status\n";
+} catch (\Throwable $e) {
+    echo "ERRO seed: " . $e->getMessage() . "\n";
+}
+
 // === STORAGE LINK ===
 echo "\n=== STORAGE LINK ===\n";
 $target = $root . '/storage/app/public';
@@ -29,11 +44,9 @@ if (is_link($link)) {
 } elseif (@symlink($target, $link)) {
     echo "Symlink criado com sucesso.\n";
 } else {
-    // Fallback: pasta real
     if (!is_dir($link)) {
         mkdir($link, 0775, true);
     }
-    // Copia arquivos existentes
     echo "Symlink falhou — pasta /public/storage criada como fallback.\n";
 }
 
@@ -46,6 +59,24 @@ try {
     echo "ERRO config:cache: " . $e->getMessage() . "\n";
 }
 
+// === ROUTE CACHE ===
+echo "\n=== ROUTE CACHE ===\n";
+try {
+    $kernel->call('route:cache');
+    echo "Route cache OK.\n";
+} catch (\Throwable $e) {
+    echo "ERRO route:cache: " . $e->getMessage() . "\n";
+}
+
+// === VIEW CACHE ===
+echo "\n=== VIEW CACHE ===\n";
+try {
+    $kernel->call('view:cache');
+    echo "View cache OK.\n";
+} catch (\Throwable $e) {
+    echo "ERRO view:cache: " . $e->getMessage() . "\n";
+}
+
 echo "\n=== CONCLUÍDO ===\n";
-echo "DELETE este arquivo agora pelo gerenciador de arquivos!\n";
+echo "DELETE este arquivo agora pelo gerenciador de arquivos da Hostinger!\n";
 echo "</pre>";
